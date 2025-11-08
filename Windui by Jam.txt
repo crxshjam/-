@@ -6,9 +6,8 @@ local playerGui = player:WaitForChild("PlayerGui")
 local WindUI = {}
 WindUI.__index = WindUI
 
-
 local Icons = {
-	["lucide-accessibility"] = "rbxassetid://10709751939",
+		["lucide-accessibility"] = "rbxassetid://10709751939",
 	["lucide-activity"] = "rbxassetid://10709752035",
 	["lucide-air-vent"] = "rbxassetid://10709752131",
 	["lucide-airplay"] = "rbxassetid://10709752254",
@@ -934,10 +933,11 @@ function WindUI:CreateWindow(config)
     ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = playerGui
 
+    -- FIXED: Changed default size to be much smaller and more reasonable
     local Outline = Instance.new("Frame", ScreenGui)
     Outline.AnchorPoint = Vector2.new(0.5,0.5)
     Outline.Position = UDim2.new(0.5,0,0.5,0)
-    Outline.Size = config.Size or UDim2.fromOffset(500,400)
+    Outline.Size = config.Size or UDim2.fromOffset(450,350) -- Changed from 500,400
     Outline.BorderSizePixel = 0
     local OutlineCorner = Instance.new("UICorner", Outline)
     OutlineCorner.CornerRadius = UDim.new(0.05,0)
@@ -948,10 +948,10 @@ function WindUI:CreateWindow(config)
         ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
     }
 
-    local Main = Instance.new("Frame", ScreenGui)
+    local Main = Instance.new("Frame", Outline)
     Main.AnchorPoint = Vector2.new(0.5,0.5)
-    Main.Position = Outline.Position
-    Main.Size = UDim2.new(0.95,0,0.95,0)
+    Main.Position = UDim2.new(0.5,0,0.5,0)
+    Main.Size = UDim2.new(0.96,0,0.96,0) -- Slightly adjusted
     Main.BorderSizePixel = 0
     local MainCorner = Instance.new("UICorner", Main)
     MainCorner.CornerRadius = UDim.new(0.04,0)
@@ -959,14 +959,15 @@ function WindUI:CreateWindow(config)
     MainGrad.Color = OutlineGrad.Color
 
     local TopBar = Instance.new("Frame", Main)
-    TopBar.Size = UDim2.new(1,0,0.12,0)
+    TopBar.Size = UDim2.new(1,0,0.1,0) -- Adjusted from 0.12
     TopBar.BackgroundTransparency = 1
     
     -- Window Icon
     if config.Icon then
         local WindowIcon = Instance.new("ImageLabel", TopBar)
-        WindowIcon.Size = UDim2.new(0.06,0,0.7,0)
-        WindowIcon.Position = UDim2.new(0.02,0,0.15,0)
+        WindowIcon.Size = UDim2.new(0,25,0,25) -- Fixed pixel size
+        WindowIcon.Position = UDim2.new(0,8,0.5,0)
+        WindowIcon.AnchorPoint = Vector2.new(0,0.5)
         WindowIcon.BackgroundTransparency = 1
         WindowIcon.Image = Icons[config.Icon] or config.Icon
         WindowIcon.ImageColor3 = Color3.fromRGB(255,255,255)
@@ -976,11 +977,12 @@ function WindUI:CreateWindow(config)
     -- Window Title
     if config.Title then
         local WindowTitle = Instance.new("TextLabel", TopBar)
-        WindowTitle.Size = UDim2.new(0.5,0,0.7,0)
-        WindowTitle.Position = config.Icon and UDim2.new(0.1,0,0.15,0) or UDim2.new(0.02,0,0.15,0)
+        WindowTitle.Size = UDim2.new(0,200,0,25) -- Fixed pixel size
+        WindowTitle.Position = config.Icon and UDim2.new(0,40,0.5,0) or UDim2.new(0,8,0.5,0)
+        WindowTitle.AnchorPoint = Vector2.new(0,0.5)
         WindowTitle.BackgroundTransparency = 1
         WindowTitle.Text = config.Title
-        WindowTitle.TextScaled = true
+        WindowTitle.TextSize = 16
         WindowTitle.TextColor3 = Color3.fromRGB(255,255,255)
         WindowTitle.Font = Enum.Font.FredokaOne
         WindowTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -988,36 +990,36 @@ function WindUI:CreateWindow(config)
 
     local MinBtn = Instance.new("TextButton", TopBar)
     MinBtn.AnchorPoint = Vector2.new(1,0.5)
-    MinBtn.Position = UDim2.new(0.9,0,0.5,0)
-    MinBtn.Size = UDim2.new(0.07,0,0.9,0)
+    MinBtn.Position = UDim2.new(1,-35,0.5,0)
+    MinBtn.Size = UDim2.new(0,25,0,25) -- Fixed pixel size
     MinBtn.BackgroundTransparency = 1
     MinBtn.Text = "–"
-    MinBtn.TextScaled = true
+    MinBtn.TextSize = 18
     MinBtn.TextColor3 = Color3.fromRGB(255,255,255)
     MinBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json")
     MinBtn.AutoButtonColor = false
 
     local CloseBtn = Instance.new("TextButton", TopBar)
     CloseBtn.AnchorPoint = Vector2.new(1,0.5)
-    CloseBtn.Position = UDim2.new(0.985,0,0.5,0)
-    CloseBtn.Size = UDim2.new(0.08,0,0.9,0)
+    CloseBtn.Position = UDim2.new(1,-5,0.5,0)
+    CloseBtn.Size = UDim2.new(0,25,0,25) -- Fixed pixel size
     CloseBtn.BackgroundTransparency = 1
-    CloseBtn.Text = "x"
-    CloseBtn.TextScaled = true
+    CloseBtn.Text = "×"
+    CloseBtn.TextSize = 20
     CloseBtn.TextColor3 = Color3.fromRGB(255,255,255)
     CloseBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json")
     CloseBtn.AutoButtonColor = false
 
     local ContentFrame = Instance.new("Frame", Main)
     ContentFrame.AnchorPoint = Vector2.new(0,0)
-    ContentFrame.Position = UDim2.new(0,0,0.12,0)
-    ContentFrame.Size = UDim2.new(1,0,0.88,0)
+    ContentFrame.Position = UDim2.new(0,0,0.1,0) -- Adjusted from 0.12
+    ContentFrame.Size = UDim2.new(1,0,0.9,0) -- Adjusted from 0.88
     ContentFrame.BackgroundTransparency = 1
 
     local OpenBtn = Instance.new("TextButton", ScreenGui)
-    OpenBtn.AnchorPoint = Vector2.new(0.5,0.95)
-    OpenBtn.Position = UDim2.new(0.5,0,0.95,0)
-    OpenBtn.Size = UDim2.new(0.22,0,0.06,0)
+    OpenBtn.AnchorPoint = Vector2.new(0.5,1)
+    OpenBtn.Position = UDim2.new(0.5,0,1,-10)
+    OpenBtn.Size = UDim2.new(0,120,0,35) -- Fixed smaller size
     OpenBtn.Text = ""
     OpenBtn.AutoButtonColor = false
     OpenBtn.Visible = false
@@ -1035,8 +1037,9 @@ function WindUI:CreateWindow(config)
     -- Open Button Icon
     if config.Icon then
         local OpenIcon = Instance.new("ImageLabel", OpenBtn)
-        OpenIcon.Size = UDim2.new(0.15,0,0.6,0)
-        OpenIcon.Position = UDim2.new(0.05,0,0.2,0)
+        OpenIcon.Size = UDim2.new(0,20,0,20)
+        OpenIcon.Position = UDim2.new(0,5,0.5,0)
+        OpenIcon.AnchorPoint = Vector2.new(0,0.5)
         OpenIcon.BackgroundTransparency = 1
         OpenIcon.Image = Icons[config.Icon] or config.Icon
         OpenIcon.ImageColor3 = Color3.fromRGB(255,255,255)
@@ -1045,11 +1048,11 @@ function WindUI:CreateWindow(config)
     
     -- Open Button Text
     local OpenText = Instance.new("TextLabel", OpenBtn)
-    OpenText.Size = config.Icon and UDim2.new(0.75,0,1,0) or UDim2.new(1,0,1,0)
-    OpenText.Position = config.Icon and UDim2.new(0.25,0,0,0) or UDim2.new(0,0,0,0)
+    OpenText.Size = config.Icon and UDim2.new(1,-30,1,0) or UDim2.new(1,0,1,0)
+    OpenText.Position = config.Icon and UDim2.new(0,30,0,0) or UDim2.new(0,0,0,0)
     OpenText.BackgroundTransparency = 1
     OpenText.Text = config.OpenButtonTitle or "OPEN"
-    OpenText.TextScaled = true
+    OpenText.TextSize = 14
     OpenText.TextColor3 = Color3.fromRGB(255,255,255)
     OpenText.Font = Enum.Font.FredokaOne
 
@@ -1084,14 +1087,14 @@ function WindUI:CreateWindow(config)
         -- Tab Header (Icon + Title)
         if config.Icon or config.Title then
             local TabHeader = Instance.new("Frame", TabFrame)
-            TabHeader.Size = UDim2.new(1,0,0.08,0)
-            TabHeader.Position = UDim2.new(0,0,0.02,0)
+            TabHeader.Size = UDim2.new(1,0,0,30) -- Fixed pixel height
+            TabHeader.Position = UDim2.new(0,0,0,5)
             TabHeader.BackgroundTransparency = 1
             
             if config.Icon then
                 local TabIcon = Instance.new("ImageLabel", TabHeader)
-                TabIcon.Size = UDim2.new(0.08,0,0.8,0)
-                TabIcon.Position = UDim2.new(0.02,0,0.1,0)
+                TabIcon.Size = UDim2.new(0,24,0,24)
+                TabIcon.Position = UDim2.new(0,8,0,3)
                 TabIcon.BackgroundTransparency = 1
                 TabIcon.Image = Icons[config.Icon] or config.Icon
                 TabIcon.ImageColor3 = Color3.fromRGB(255,255,255)
@@ -1100,11 +1103,11 @@ function WindUI:CreateWindow(config)
             
             if config.Title then
                 local TabTitle = Instance.new("TextLabel", TabHeader)
-                TabTitle.Size = UDim2.new(0.5,0,0.8,0)
-                TabTitle.Position = config.Icon and UDim2.new(0.12,0,0.1,0) or UDim2.new(0.02,0,0.1,0)
+                TabTitle.Size = UDim2.new(0,200,0,24)
+                TabTitle.Position = config.Icon and UDim2.new(0,38,0,3) or UDim2.new(0,8,0,3)
                 TabTitle.BackgroundTransparency = 1
                 TabTitle.Text = config.Title
-                TabTitle.TextScaled = true
+                TabTitle.TextSize = 15
                 TabTitle.TextColor3 = Color3.fromRGB(255,255,255)
                 TabTitle.Font = Enum.Font.FredokaOne
                 TabTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -1112,44 +1115,47 @@ function WindUI:CreateWindow(config)
         end
         
         local Scrolling = Instance.new("ScrollingFrame", TabFrame)
-        Scrolling.Size = UDim2.new(1,0,0.88,0)
-        Scrolling.Position = UDim2.new(0,0,0.12,0)
+        Scrolling.Size = UDim2.new(1,-10,1,-40)
+        Scrolling.Position = UDim2.new(0,5,0,35)
         Scrolling.CanvasSize = UDim2.new(0,0,0,0)
-        Scrolling.ScrollBarThickness = 0
+        Scrolling.ScrollBarThickness = 4
         Scrolling.BackgroundTransparency = 1
         local Layout = Instance.new("UIListLayout", Scrolling)
-        Layout.Padding = UDim.new(0.03,0)
+        Layout.Padding = UDim.new(0,8)
         Layout.SortOrder = Enum.SortOrder.LayoutOrder
+        
+        Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            Scrolling.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 10)
+        end)
 
         local Tab = {}
         
         function Tab:Button(configBtn)
             local Btn = Instance.new("TextButton", Scrolling)
-            Btn.Size = UDim2.new(1,0,0,50)
-            Btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
+            Btn.Size = UDim2.new(1,-5,0,40) -- Fixed height
+            Btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
             Btn.Text = ""
             Btn.AutoButtonColor = false
             local BtnCorner = Instance.new("UICorner", Btn)
-            BtnCorner.CornerRadius = UDim.new(0.1,0)
+            BtnCorner.CornerRadius = UDim.new(0,8)
             
-            -- Button Icon
             if configBtn.Icon then
                 local BtnIcon = Instance.new("ImageLabel", Btn)
-                BtnIcon.Size = UDim2.new(0.08,0,0.6,0)
-                BtnIcon.Position = UDim2.new(0.02,0,0.2,0)
+                BtnIcon.Size = UDim2.new(0,24,0,24)
+                BtnIcon.Position = UDim2.new(0,8,0.5,0)
+                BtnIcon.AnchorPoint = Vector2.new(0,0.5)
                 BtnIcon.BackgroundTransparency = 1
                 BtnIcon.Image = Icons[configBtn.Icon] or configBtn.Icon
                 BtnIcon.ImageColor3 = Color3.fromRGB(255,255,255)
                 BtnIcon.ScaleType = Enum.ScaleType.Fit
             end
             
-            -- Button Text
             local BtnText = Instance.new("TextLabel", Btn)
-            BtnText.Size = configBtn.Icon and UDim2.new(0.85,0,1,0) or UDim2.new(0.95,0,1,0)
-            BtnText.Position = configBtn.Icon and UDim2.new(0.12,0,0,0) or UDim2.new(0.025,0,0,0)
+            BtnText.Size = configBtn.Icon and UDim2.new(1,-45,1,0) or UDim2.new(1,-16,1,0)
+            BtnText.Position = configBtn.Icon and UDim2.new(0,38,0,0) or UDim2.new(0,8,0,0)
             BtnText.BackgroundTransparency = 1
             BtnText.Text = configBtn.Title or "Button"
-            BtnText.TextScaled = true
+            BtnText.TextSize = 14
             BtnText.TextColor3 = Color3.fromRGB(255,255,255)
             BtnText.Font = Enum.Font.FredokaOne
             BtnText.TextXAlignment = Enum.TextXAlignment.Left
@@ -1162,45 +1168,44 @@ function WindUI:CreateWindow(config)
 
         function Tab:Toggle(configTog)
             local Tog = Instance.new("TextButton", Scrolling)
-            Tog.Size = UDim2.new(1,0,0,50)
-            Tog.BackgroundColor3 = Color3.fromRGB(0,0,0)
+            Tog.Size = UDim2.new(1,-5,0,40)
+            Tog.BackgroundColor3 = Color3.fromRGB(30,30,30)
             Tog.Text = ""
             Tog.AutoButtonColor = false
             local TogCorner = Instance.new("UICorner", Tog)
-            TogCorner.CornerRadius = UDim.new(0.1,0)
+            TogCorner.CornerRadius = UDim.new(0,8)
             
             local state = configTog.Default or false
             
-            -- Toggle Icon
             if configTog.Icon then
                 local TogIcon = Instance.new("ImageLabel", Tog)
-                TogIcon.Size = UDim2.new(0.08,0,0.6,0)
-                TogIcon.Position = UDim2.new(0.02,0,0.2,0)
+                TogIcon.Size = UDim2.new(0,24,0,24)
+                TogIcon.Position = UDim2.new(0,8,0.5,0)
+                TogIcon.AnchorPoint = Vector2.new(0,0.5)
                 TogIcon.BackgroundTransparency = 1
                 TogIcon.Image = Icons[configTog.Icon] or configTog.Icon
                 TogIcon.ImageColor3 = Color3.fromRGB(255,255,255)
                 TogIcon.ScaleType = Enum.ScaleType.Fit
             end
             
-            -- Toggle Text
             local TogText = Instance.new("TextLabel", Tog)
-            TogText.Size = configTog.Icon and UDim2.new(0.7,0,1,0) or UDim2.new(0.8,0,1,0)
-            TogText.Position = configTog.Icon and UDim2.new(0.12,0,0,0) or UDim2.new(0.025,0,0,0)
+            TogText.Size = configTog.Icon and UDim2.new(1,-90,1,0) or UDim2.new(1,-60,1,0)
+            TogText.Position = configTog.Icon and UDim2.new(0,38,0,0) or UDim2.new(0,8,0,0)
             TogText.BackgroundTransparency = 1
             TogText.Text = configTog.Title or "Toggle"
-            TogText.TextScaled = true
+            TogText.TextSize = 14
             TogText.TextColor3 = Color3.fromRGB(255,255,255)
             TogText.Font = Enum.Font.FredokaOne
             TogText.TextXAlignment = Enum.TextXAlignment.Left
             
-            -- Toggle Indicator
             local TogIndicator = Instance.new("Frame", Tog)
-            TogIndicator.Size = UDim2.new(0.12,0,0.4,0)
-            TogIndicator.Position = UDim2.new(0.86,0,0.3,0)
+            TogIndicator.Size = UDim2.new(0,45,0,20)
+            TogIndicator.Position = UDim2.new(1,-50,0.5,0)
+            TogIndicator.AnchorPoint = Vector2.new(0,0.5)
             TogIndicator.BackgroundColor3 = state and Color3.fromRGB(0,255,0) or Color3.fromRGB(255,0,0)
             TogIndicator.BorderSizePixel = 0
             local TogIndCorner = Instance.new("UICorner", TogIndicator)
-            TogIndCorner.CornerRadius = UDim.new(0.5,0)
+            TogIndCorner.CornerRadius = UDim.new(1,0)
             
             Tog.MouseButton1Click:Connect(function()
                 state = not state
@@ -1214,23 +1219,22 @@ function WindUI:CreateWindow(config)
 
         function Tab:Slider(configSli)
             local SliFrame = Instance.new("Frame", Scrolling)
-            SliFrame.Size = UDim2.new(1,0,0,70)
-            SliFrame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+            SliFrame.Size = UDim2.new(1,-5,0,60)
+            SliFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
             SliFrame.BorderSizePixel = 0
             local SliCorner = Instance.new("UICorner", SliFrame)
-            SliCorner.CornerRadius = UDim.new(0.1,0)
+            SliCorner.CornerRadius = UDim.new(0,8)
             
-            -- Slider Header
             if configSli.Icon or configSli.Title then
                 local SliHeader = Instance.new("Frame", SliFrame)
-                SliHeader.Size = UDim2.new(1,0,0.35,0)
-                SliHeader.Position = UDim2.new(0,0,0.05,0)
+                SliHeader.Size = UDim2.new(1,0,0,22)
+                SliHeader.Position = UDim2.new(0,0,0,5)
                 SliHeader.BackgroundTransparency = 1
                 
                 if configSli.Icon then
                     local SliIcon = Instance.new("ImageLabel", SliHeader)
-                    SliIcon.Size = UDim2.new(0.08,0,0.8,0)
-                    SliIcon.Position = UDim2.new(0.02,0,0.1,0)
+                    SliIcon.Size = UDim2.new(0,18,0,18)
+                    SliIcon.Position = UDim2.new(0,8,0,2)
                     SliIcon.BackgroundTransparency = 1
                     SliIcon.Image = Icons[configSli.Icon] or configSli.Icon
                     SliIcon.ImageColor3 = Color3.fromRGB(255,255,255)
@@ -1239,43 +1243,42 @@ function WindUI:CreateWindow(config)
                 
                 if configSli.Title then
                     local SliTitle = Instance.new("TextLabel", SliHeader)
-                    SliTitle.Size = UDim2.new(0.5,0,0.8,0)
-                    SliTitle.Position = configSli.Icon and UDim2.new(0.12,0,0.1,0) or UDim2.new(0.02,0,0.1,0)
+                    SliTitle.Size = UDim2.new(0,150,0,18)
+                    SliTitle.Position = configSli.Icon and UDim2.new(0,32,0,2) or UDim2.new(0,8,0,2)
                     SliTitle.BackgroundTransparency = 1
                     SliTitle.Text = configSli.Title
-                    SliTitle.TextScaled = true
+                    SliTitle.TextSize = 13
                     SliTitle.TextColor3 = Color3.fromRGB(255,255,255)
                     SliTitle.Font = Enum.Font.FredokaOne
                     SliTitle.TextXAlignment = Enum.TextXAlignment.Left
                 end
             end
             
+            local ValueLabel = Instance.new("TextLabel", SliFrame)
+            ValueLabel.Size = UDim2.new(0,50,0,18)
+            ValueLabel.Position = UDim2.new(1,-55,0,7)
+            ValueLabel.BackgroundTransparency = 1
+            ValueLabel.TextSize = 13
+            ValueLabel.TextColor3 = Color3.fromRGB(255,255,255)
+            ValueLabel.Font = Enum.Font.FredokaOne
+            
             local Slider = Instance.new("Frame", SliFrame)
-            Slider.AnchorPoint = Vector2.new(0.5,0.5)
-            Slider.Position = UDim2.new(0.5,0,0.7,0)
-            Slider.Size = UDim2.new(0.9,0,0.25,0)
-            Slider.BackgroundColor3 = Color3.fromRGB(40,40,40)
+            Slider.Position = UDim2.new(0,10,1,-20)
+            Slider.Size = UDim2.new(1,-20,0,8)
+            Slider.BackgroundColor3 = Color3.fromRGB(50,50,50)
             Slider.BorderSizePixel = 0
             local SliderCorner = Instance.new("UICorner", Slider)
-            SliderCorner.CornerRadius = UDim.new(0.5,0)
+            SliderCorner.CornerRadius = UDim.new(1,0)
             
             local Fill = Instance.new("Frame", Slider)
             Fill.Size = UDim2.new(0,0,1,0)
             Fill.BackgroundColor3 = Color3.fromRGB(255,0,0)
             Fill.BorderSizePixel = 0
             local FillCorner = Instance.new("UICorner", Fill)
-            FillCorner.CornerRadius = UDim.new(0.5,0)
-            
-            local ValueLabel = Instance.new("TextLabel", SliFrame)
-            ValueLabel.Size = UDim2.new(0.2,0,0.3,0)
-            ValueLabel.Position = UDim2.new(0.78,0,0.05,0)
-            ValueLabel.BackgroundTransparency = 1
-            ValueLabel.TextScaled = true
-            ValueLabel.TextColor3 = Color3.fromRGB(255,255,255)
-            ValueLabel.Font = Enum.Font.FredokaOne
+            FillCorner.CornerRadius = UDim.new(1,0)
             
             local mouseDown = false
-            local value = configSli.Value.Default or 0
+            local value = configSli.Value.Default or configSli.Value.Min
             
             local function updateSlider(val)
                 value = val
@@ -1300,7 +1303,7 @@ function WindUI:CreateWindow(config)
                     local mouse = player:GetMouse()
                     local relative = math.clamp((mouse.X - Slider.AbsolutePosition.X)/Slider.AbsoluteSize.X,0,1)
                     local newValue = configSli.Value.Min + relative*(configSli.Value.Max - configSli.Value.Min)
-                    newValue = math.floor(newValue/configSli.Step+0.5)*configSli.Step
+                    newValue = math.floor(newValue/(configSli.Step or 1)+0.5)*(configSli.Step or 1)
                     updateSlider(newValue)
                 end
             end)
