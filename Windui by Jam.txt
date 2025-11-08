@@ -924,6 +924,9 @@ local Icons = {
 	["lucide-spline"] = "rbxassetid://101706857671829",
 	["lucide-split"] = "rbxassetid://94282375851350",
 	["lucide-split-square-horizontal"] = "rbxassetid://86002864284442",
+	["lucide-settings"] = "rbxassetid://82305237506854",
+	["lucide-skull"] = "rbxassetid://122213155792706",
+
 }
 
 function WindUI:CreateWindow(config)
@@ -1317,3 +1320,4 @@ function WindUI:CreateWindow(config)
 end
 
 return setmetatable({}, WindUI)
+
