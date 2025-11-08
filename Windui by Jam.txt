@@ -1022,7 +1022,7 @@ function WindUI:CreateWindow(config)
     local OpenBtn = Instance.new("TextButton", ScreenGui)
     OpenBtn.AnchorPoint = Vector2.new(0.5,1)
     OpenBtn.Position = UDim2.new(0.5,0,1,-10)
-    OpenBtn.Size = UDim2.new(0,120,0,35) -- Fixed smaller size
+    OpenBtn.Size = UDim2.new(0,200,0,45) -- Fixed smaller size
     OpenBtn.Text = ""
     OpenBtn.AutoButtonColor = false
     OpenBtn.Visible = false
@@ -1320,4 +1320,5 @@ function WindUI:CreateWindow(config)
 end
 
 return setmetatable({}, WindUI)
+
 
